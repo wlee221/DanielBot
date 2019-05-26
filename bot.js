@@ -32,12 +32,19 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     to: channelID,
                     message: 'ily'
                 });
+                break;
             case 'repo':
-                    bot.sendMessage({
-                        to: channelID,
-                        message: 'https://github.com/wlee221/daniel-bot'
-                    });                
-            break;
+                bot.sendMessage({
+                    to: channelID,
+                    message: 'https://github.com/wlee221/daniel-bot'
+                }); 
+                break;
+            default:               
+                bot.sendMessage({
+                    to: channelID,
+                    message: 'Unknown command'
+                });
+                break;
             // Just add any case commands if you want to..
          }
      }

@@ -1,11 +1,11 @@
 {
-  "name": "DanielBot",
+  "name": "daniel-bot",
   "version": "1.0.0",
   "description": "We love you Daniel",
   "main": "bot.js",
   "author": "William Lee",
   "dependencies": {
-    "discord.io": "^2.5.3",
-    "winston": "^3.2.1"
+    "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+    "winston": "^2.4.4"
   }
 }
