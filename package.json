@@ -1,0 +1,11 @@
+{
+  "name": "DanielBot",
+  "version": "1.0.0",
+  "description": "We love you Daniel",
+  "main": "bot.js",
+  "author": "William Lee",
+  "dependencies": {
+    "discord.io": "^2.5.3",
+    "winston": "^3.2.1"
+  }
+}
