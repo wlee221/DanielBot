@@ -39,6 +39,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: 'https://github.com/wlee221/daniel-bot'
                 }); 
                 break;
+            case 'status':
+                bot.sendMessage({
+                    to: channelID,
+                    message: 'This bot currently runs on William\'s local machine and will be offline most of times. It will be hosted on Amazon EC2 after basic functionality has been developed.'
+                })
             default:               
                 bot.sendMessage({
                     to: channelID,
