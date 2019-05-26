@@ -44,6 +44,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     to: channelID,
                     message: 'This bot currently runs on William\'s local machine and will be offline most of times. It will be hosted on Amazon EC2 after basic functionality has been developed.'
                 })
+                break;
             default:               
                 bot.sendMessage({
                     to: channelID,
