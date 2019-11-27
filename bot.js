@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 var logger = require('winston');
 var auth = require('./auth.json');
 const userIDs = require('./userIDs.json');
-const Util = require('./util.js');
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -53,6 +52,9 @@ bot.on('message', message => {
             case 'help':
                 message.channel.send('Current commands: `whowouldwin`, daniel`, `mike`, `michael`, `shili`, `shiliang`, `repo`, `help`, `danielLoveMode`\nformat: `ily [command]`');
                 break;
+            case 'code':
+                message.channel.send('https://github.com/wlee221/daniel-bot/blob/master/bot.js');
+                break;
             case 'danielLoveMode':
                 if (loveDanielMode) {
                     message.channel.send('turned off the daniel love mode.')
@@ -90,7 +92,6 @@ bot.on('message', message => {
             default:
                 message.channel.send('Unknown command. Type \`ily help`\ to see a list of commands.')
                 break;
-            // Just add any case commands if you want to..
         }
     }
 });
