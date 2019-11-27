@@ -18,7 +18,6 @@ bot.once('ready', () => {
 bot.login(auth.token);
 
 // Bot Settings
-let debugMode = false;
 let loveDanielMode = true;
 
 bot.on('message', message => {
@@ -28,12 +27,12 @@ bot.on('message', message => {
 
     if (userID === userIDs.bot) return;
     if (userID === userIDs.daniel && loveDanielMode) {
-        let hearts = ['❤️', '🧡', '💛', '💚', '💙', '💜', '💘', '♋', '💝', '💖', '💗', '💓', '💞', '💕', '💟', '❣'];
+        const hearts = ['❤️', '🧡', '💛', '💚', '💙', '💜', '💘', '♋', '💝', '💖', '💗', '💓', '💞', '💕', '💟', '❣'];
         hearts.forEach(emoji => message.react(emoji));
     }
     if (message.content.substring(0, prefix.length) == prefix) {
-        var args = message.content.substring(prefix.length + 1).split(' ');
-        var cmd = args[0];
+        const args = message.content.substring(prefix.length + 1).split(' ');
+        const cmd = args[0];
         switch (cmd) {
             case 'daniel':
                 message.channel.send('ily <3');
@@ -50,7 +49,7 @@ bot.on('message', message => {
                 message.channel.send('https://github.com/wlee221/daniel-bot')
                 break;
             case 'help':
-                message.channel.send('Current commands: `whowouldwin`, daniel`, `mike`, `michael`, `shili`, `shiliang`, `repo`, `help`, `danielLoveMode`\nformat: `ily [command]`');
+                message.channel.send('Current commands: `whowouldwin`, daniel`, `mike`, `michael`, `shili`, `shiliang`, `repo`, `help`, `danielLoveMode`, `code`\nformat: `ily [command]`');
                 break;
             case 'code':
                 message.channel.send('https://github.com/wlee221/daniel-bot/blob/master/bot.js');
@@ -83,8 +82,8 @@ bot.on('message', message => {
                 message.channel.send(`DanielBot chooses \`${chosenOption}\`!`);
                 break;
             case 'weed':
-                let eLength = Math.floor((5 + Math.random() * 20));
-                let weed = 'w';
+                const eLength = Math.floor((5 + Math.random() * 20));
+                const weed = 'w';
                 while (eLength--) weed += 'e';
                 weed += 'd';
                 message.channel.send(`${weed}`);
