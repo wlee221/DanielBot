@@ -1,57 +1,96 @@
-Discord = require('discord.io');
+const Discord = require('discord.js');
 var logger = require('winston');
 var auth = require('./auth.json');
+const userIDs = require('./userIDs.json');
+const Util = require('./util.js');
+
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, {
     colorize: true
 });
 logger.level = 'debug';
+
 // Initialize Discord Bot
-var bot = new Discord.Client({
-   token: auth.token,
-   autorun: true
-});
-bot.on('ready', function (evt) {
-    logger.info('Connected');
-    logger.info('Logged in as: ');
-    logger.info(bot.username + ' - (' + bot.id + ')');
-});
-bot.on('message', function (user, userID, channelID, message, evt) {
-    // Our bot needs to know if it will execute a command
-    // It will listen for messages that will start with `!`
-    if (message.substring(0, 1) == '-') {
-        var args = message.substring(1).split(' ');
+const bot = new Discord.Client();
+bot.once('ready', () => {
+    logger.info('ready!');
+})
+bot.login(auth.token);
+
+// Bot Settings
+let debugMode = false;
+let loveDanielMode = true;
+
+bot.on('message', message => {
+    const userID = message.author.id;
+    const channelID = message.channel.id;
+    const prefix = 'ily'
+
+    if (userID === userIDs.bot) return;
+    if (userID === userIDs.daniel && loveDanielMode) {
+        let hearts = ['❤️', '🧡', '💛', '💚', '💙', '💜', '💘', '♋', '💝', '💖', '💗', '💓', '💞', '💕', '💟', '❣'];
+        hearts.forEach(emoji => message.react(emoji));
+    }
+    if (message.content.substring(0, prefix.length) == prefix) {
+        var args = message.content.substring(prefix.length + 1).split(' ');
         var cmd = args[0];
-       
-        args = args.splice(1);
-        switch(cmd) {
-            // !ping
+        switch (cmd) {
             case 'daniel':
-                bot.sendMessage({
-                    to: channelID,
-                    message: 'ily'
-                });
+                message.channel.send('ily <3');
+                break;
+            case 'mike':
+            case 'michael':
+                message.channel.send('ily a little bit');
+                break;
+            case 'shili':
+            case 'shiliang':
+                message.channel.send('lolicon');
                 break;
             case 'repo':
-                bot.sendMessage({
-                    to: channelID,
-                    message: 'https://github.com/wlee221/daniel-bot'
-                }); 
+                message.channel.send('https://github.com/wlee221/daniel-bot')
                 break;
-            case 'status':
-                bot.sendMessage({
-                    to: channelID,
-                    message: 'This bot currently runs on William\'s local machine and will be offline most of times. It will be hosted on Amazon EC2 after basic functionality has been developed.'
-                })
+            case 'help':
+                message.channel.send('Current commands: `whowouldwin`, daniel`, `mike`, `michael`, `shili`, `shiliang`, `repo`, `help`, `danielLoveMode`\nformat: `ily [command]`');
                 break;
-            default:               
-                bot.sendMessage({
-                    to: channelID,
-                    message: 'Unknown command'
-                });
+            case 'danielLoveMode':
+                if (loveDanielMode) {
+                    message.channel.send('turned off the daniel love mode.')
+                } else {
+                    message.channel.send('turned on the daniel love mode.')
+                }
+                loveDanielMode = !loveDanielMode;
+                break;
+            case 'whowouldwin':
+                const mentionedUsers = message.mentions.users;
+                const userIDs = mentionedUsers.map(user => user.id);
+                if (userIDs.length === 0) {
+                    message.channel.send('Usage: `ily whowouldwin [person 1] [person 2] ...`');
+                    return;
+                }
+                const chosenID = userIDs[Math.floor(Math.random() * userIDs.length)];
+                message.channel.send(`<@${chosenID}> wins!`);
+                break;
+            case 'choose':
+                const options = args.slice(1);
+                if (options.length === 0) {
+                    message.channel.send('Usage: `ily choose [object 1] [object 2] ...`');
+                    return;
+                }
+                const chosenOption = options[Math.floor(Math.random() * options.length)];
+                message.channel.send(`DanielBot chooses \`${chosenOption}\`!`);
+                break;
+            case 'weed':
+                let eLength = Math.floor((5 + Math.random() * 20));
+                let weed = 'w';
+                while (eLength--) weed += 'e';
+                weed += 'd';
+                message.channel.send(`${weed}`);
+                break;
+            default:
+                message.channel.send('Unknown command. Type \`ily help`\ to see a list of commands.')
                 break;
             // Just add any case commands if you want to..
-         }
-     }
+        }
+    }
 });
